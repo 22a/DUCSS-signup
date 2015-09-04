@@ -1,5 +1,15 @@
 <ion-view view-title="Review">
   <ion-content>
-    <h1>Review Tables</h1>
+    <h1>Temporary Storage</h1>
+    <ion-list>
+      <ion-item ng-repeat="member in tempMembers">
+        <div style="float: left;">
+          {{member.firstName}} {{member.lastName}}
+        </div>
+        <div style="float: right;">
+          {{member.email}}
+        </div>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

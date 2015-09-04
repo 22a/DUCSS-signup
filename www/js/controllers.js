@@ -59,21 +59,22 @@ angular.module('starter.controllers', [])
   };
 
 })
-.controller('SignupCtrl', function($scope, $ionicPopup) {
+.controller('SignupCtrl', function($scope, $ionicPopup, Storage) {
+  $scope.user = {};
+
   $scope.signup = function (user) {
     //buffered local storage
-
+    Storage.addMember(user);
+    $scope.user = {};
     $ionicPopup.alert({
       title: ('Welcome to DUCSS, ' + user.firstName + "!"),
-      subTitle: ("We'll send more information to your email later on in the week!"),
+      subTitle: ("We'll send more information to your email later on this week!"),
       okText: 'Sweet!',
       okType: 'button-balanced',
-   });
-
-    user = {};
+    });
   };
 
 })
-.controller('ReviewCtrl', function($scope) {
-
+.controller('ReviewCtrl', function($scope, Storage) {
+  $scope.tempMembers = Storage.getTempMembers();
 });
