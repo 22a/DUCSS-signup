@@ -1,5 +1,35 @@
 <ion-view view-title="Signup">
   <ion-content>
-    <h1>Signup Form</h1>
+    <form name="signupForm" ng-submit="signup(user)" novalidate>
+      <div class="list">
+        <label class="item item-input item-floating-label">
+          <span class="input-label">First Name</span>
+          <input type="text" placeholder="First Name" ng-model="user.firstName" autocorrect="off" required>
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Last Name</span>
+          <input type="text" placeholder="Last Name" ng-model="user.lastName" autocorrect="off" required>
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Email</span>
+          <input type="email" placeholder="Email" ng-model="user.email" required>
+        </label>
+        <label class="item item-input item-select">
+          <div class="input-label">
+            Year of Study
+          </div>
+          <select ng-model="user.year" required>
+            <option value="1">First</option>
+            <option value="2">Second</option>
+            <option value="3">Third</option>
+            <option value="4">Fourth</option>
+            <option value="5">Postgrad/Staff</option>
+          </select>
+        </label>
+      </div>
+      <button class="button button-block button-balanced" type="submit" ng-disabled="signupForm.$invalid">
+        Sign Up
+      </button>
+    </form>
   </ion-content>
 </ion-view>

@@ -34,18 +34,20 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     url: '/signup',
     views: {
       'menuContent': {
-        templateUrl: 'templates/signup.html'
+        templateUrl: 'templates/signup.html',
+        controller: 'SignupCtrl'
       }
     }
   })
   .state('app.review', {
-      url: '/review',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/review.html'
-        }
+    url: '/review',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/review.html',
+        controller: 'ReviewCtrl'
       }
-    });
+    }
+  });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/signup');
 });

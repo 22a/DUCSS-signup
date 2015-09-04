@@ -1,1 +1,16 @@
 /* Empty. Add your own CSS if you like */
+
+
+/*Makes login prompt fullscreen on all devices*/
+.modal{
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+
+/*Temporary styling so that my eyes don't burn*/
+h1 {
+  text-align: center;
+}
