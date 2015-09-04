@@ -11,6 +11,14 @@
 }
 
 /*Temporary styling so that my eyes don't burn*/
-h1 {
+.review-header {
   text-align: center;
+}
+
+.member-name {
+  float: left;
+}
+
+.member-email {
+  float: right;
 }

@@ -2,11 +2,6 @@ angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout, $location, $ionicPopup) {
 
-  $scope.loggedIn = false;
-
-  // Form data for the login modal
-  $scope.loginData = {};
-
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
@@ -15,17 +10,14 @@ angular.module('starter.controllers', [])
     $scope.login();
   });
 
-  // Triggered in the login modal to close it
   $scope.closeLogin = function() {
     $scope.modal.hide();
   };
 
-  // Open the login modal
   $scope.login = function() {
     $scope.modal.show();
   };
 
-  // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     //Perhaps jump off to API Service?
     //putting this here as a placeholder
@@ -36,7 +28,6 @@ angular.module('starter.controllers', [])
       $scope.closeLogin();
       $location.path('app/signup')
     }
-
   };
 
   $scope.doLogout = function() {
@@ -52,11 +43,29 @@ angular.module('starter.controllers', [])
         $scope.loggedIn = false;
         $scope.modal.show();
         $location.path('app/signup');
-      } else {
+      }
+      else {
         // user clicked no to logout, butter fingers
       }
     });
   };
+
+  $scope.loggedIn = false;
+  $scope.loginData = {};
+  $scope.connecting = true; // linked to loading icon during token comms
+
+  var localToken = localStorage.getItem("token");
+  var localUN = localStorage.getItem("username");
+
+  if (localUN) {
+    $scope.loginData.username = localUN;
+  }
+  if(!(localToken && localUN)){
+    $scope.connecting = false;
+  }
+  else{
+    sendToken();
+  }
 
 })
 .controller('SignupCtrl', function($scope, $ionicPopup, Storage) {
