@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $location, $ionicSideMenuDelegate) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $location, $ionicPopup) {
 
   $scope.loggedIn = false;
 
@@ -40,15 +40,38 @@ angular.module('starter.controllers', [])
   };
 
   $scope.doLogout = function() {
-    // TODO: add confirm dialog
-    $scope.loggedIn = false;
-    $location.path('app/signup');
-    $ionicSideMenuDelegate.toggleLeft();
-    $scope.modal.show();
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Warning',
+      subTitle: ("Data may be lost!"),
+      template: 'Are you sure you want to log out?',
+      okText: 'LOGOUT',
+      okType: 'button-assertive'
+    });
+    confirmPopup.then(function(res) {
+      if(res) {
+        $scope.loggedIn = false;
+        $scope.modal.show();
+        $location.path('app/signup');
+      } else {
+        // user clicked no to logout, butter fingers
+      }
+    });
   };
 
 })
-.controller('SignupCtrl', function($scope) {
+.controller('SignupCtrl', function($scope, $ionicPopup) {
+  $scope.signup = function (user) {
+    //buffered local storage
+
+    $ionicPopup.alert({
+      title: ('Welcome to DUCSS, ' + user.firstName + "!"),
+      subTitle: ("We'll send more information to your email later on in the week!"),
+      okText: 'Sweet!',
+      okType: 'button-balanced',
+   });
+
+    user = {};
+  };
 
 })
 .controller('ReviewCtrl', function($scope) {
