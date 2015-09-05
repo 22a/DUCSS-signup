@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $location, $ionicPopup, API) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $location, $ionicPopup, API, $http) {
 
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
@@ -23,7 +23,7 @@ angular.module('starter.controllers', [])
     $scope.loggedIn = true;
     $scope.closeLogin();
     $location.path('app/signup');
-  }
+  };
 
   $scope.doLogin = function() {
     $scope.connecting = true;
@@ -31,6 +31,7 @@ angular.module('starter.controllers', [])
       .then(
         function (response) {
           localStorage.setItem("token", response.token);
+          $http.defaults.headers.common.Authorization = 'Token token="' + response.token + '"';
           localStorage.setItem("username", $scope.loginData.username);
           passLogin();
           $scope.connecting = false;
@@ -124,7 +125,7 @@ angular.module('starter.controllers', [])
   var refreshLists = function () {
     $scope.tempMembers = Storage.getTempMembers();
     $scope.sendingMembers = Storage.getSendingMembers();
-  }
+  };
 
   $scope.$on('$ionicView.enter', function(e) {
     refreshLists();

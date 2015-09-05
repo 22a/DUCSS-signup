@@ -80,7 +80,6 @@ angular.module('starter.services', [])
   this.POST = function (endpoint, postData, token) {
     deferredPost = $q.defer();
     $http.post(url + endpoint, {
-      headers :{ 'Authorization': 'Token token="' + token + '"' },
       data :{ "members" : postData }
     })
     .success(function (data) {
