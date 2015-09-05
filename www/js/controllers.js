@@ -32,7 +32,6 @@ angular.module('starter.controllers', [])
         function (response) {
           localStorage.setItem("token", response.token);
           $http.defaults.headers.common.Authorization = 'Token token="' + response.token + '"';
-          localStorage.setItem("username", $scope.loginData.username);
           passLogin();
           $scope.connecting = false;
         },
@@ -95,8 +94,10 @@ angular.module('starter.controllers', [])
   }
 
 })
-.controller('SignupCtrl', function($scope, $ionicPopup, Storage) {
+.controller('SignupCtrl', function($scope, $ionicPopup, Storage, $http) {
   $scope.user = {};
+
+  $http.defaults.headers.common.Authorization = 'Token token="' + localStorage.getItem('token') + '"';
 
   $scope.signup = function (user) {
     //buffered local storage
