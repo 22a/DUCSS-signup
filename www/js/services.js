@@ -13,7 +13,7 @@ angular.module('starter.services', [])
     if(window.Connection) {
       return navigator.connection.type !== 'Connection.NONE';
     }
-    return false;
+    return true; //TODO: CHANGE TO FALSE WHEN DONE DEBUGGING!!!
   };
 
   this.addMember = function (user) {
@@ -39,7 +39,7 @@ angular.module('starter.services', [])
       temp = [];
       localStorage.setItem(tempBuffAdd, JSON.stringify(temp));
 
-      API.GET('/members', sending, localStorage.getItem("username"), localStorage.getItem("token"))
+      API.POST('/members/import', sending, localStorage.getItem("token"))
       .then(
         function (response) {
           sending = [];
@@ -58,7 +58,7 @@ angular.module('starter.services', [])
 })
 
 .service('API', function($http, $q) {
-  var url = 'http://localhost:3000';
+  var url = 'https://spootbean.cbrenn.me/api';
   var deferredGet;
   var deferredPost;
 
@@ -77,12 +77,11 @@ angular.module('starter.services', [])
     return deferredGet.promise;
   };
 
-  this.POST = function (endpoint, postData, authUser, authPass) {
+  this.POST = function (endpoint, postData, token) {
     deferredPost = $q.defer();
-    var auth = 'Basic ' + btoa(authUser + ':' + authPass);
     $http.post(url + endpoint, {
-      data :{ "Data" : postData },
-      headers :{ 'Authorization' : auth}
+      headers :{ 'Authorization': 'Token token="' + token + '"' },
+      data :{ "members" : postData }
     })
     .success(function (data) {
       deferredPost.resolve(data);

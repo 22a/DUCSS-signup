@@ -27,12 +27,13 @@ angular.module('starter.controllers', [])
 
   $scope.doLogin = function() {
     $scope.connecting = true;
-    API.GET('/auth', $scope.loginData.username, $scope.loginData.password)
+    API.GET('/access', $scope.loginData.username, $scope.loginData.password)
       .then(
         function (response) {
           localStorage.setItem("token", response.token);
           localStorage.setItem("username", $scope.loginData.username);
-          sendToken();
+          passLogin();
+          $scope.connecting = false;
         },
         function (error) {
           $scope.loginData.password = '';
@@ -77,37 +78,8 @@ angular.module('starter.controllers', [])
     });
   };
 
-  var sendToken = function () {
-    API.GET('/token', localStorage.getItem("username"), localStorage.getItem("token"))
-      .then(
-        function (response) {
-          passLogin();
-        },
-        function (error) {
-          if(error.code === 401 || error.code === 404){
-            localStorage.removeItem("token");
-            $scope.connecting = false;
-            $ionicPopup.alert({
-              title: ('Error: ' + error.code),
-              template: 'Your token is no longer valid',
-              okType: 'button-assertive'
-            });
-          }
-          else {
-            $scope.connecting = false;
-            $ionicPopup.alert({
-              title: ('Error: ' + error.code),
-              template: 'Check your internet connection',
-              okType: 'button-assertive'
-            });
-          }
-        }
-      );
-  }
-
   $scope.loggedIn = false;
   $scope.loginData = {};
-  $scope.connecting = true; // linked to loading icon during token comms
 
   var localToken = localStorage.getItem("token");
   var localUN = localStorage.getItem("username");
@@ -115,11 +87,10 @@ angular.module('starter.controllers', [])
   if (localUN) {
     $scope.loginData.username = localUN;
   }
-  if(!(localToken && localUN)){
-    $scope.connecting = false;
-  }
-  else{
-    sendToken();
+  if(localToken && localUN){
+    setTimeout(function() {
+      passLogin();
+    }, 20);
   }
 
 })
@@ -136,7 +107,7 @@ angular.module('starter.controllers', [])
       okText: 'Sweet!',
       okType: 'button-balanced'
     });
-    
+
     //attempt to upload new member
     Storage.uploadTemp();
 
