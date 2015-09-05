@@ -41,14 +41,14 @@ angular.module('starter.controllers', [])
             $ionicPopup.alert({
               title: ('Error: ' + error.code),
               template: 'Incorrect Username/Password',
-              okType: 'button-assertive',
+              okType: 'button-assertive'
             });
           }
           else {
             $ionicPopup.alert({
               title: ('Error: ' + error.code),
               template: 'Check your internet connection',
-              okType: 'button-assertive',
+              okType: 'button-assertive'
             });
           }
         }
@@ -90,7 +90,7 @@ angular.module('starter.controllers', [])
             $ionicPopup.alert({
               title: ('Error: ' + error.code),
               template: 'Your token is no longer valid',
-              okType: 'button-assertive',
+              okType: 'button-assertive'
             });
           }
           else {
@@ -98,7 +98,7 @@ angular.module('starter.controllers', [])
             $ionicPopup.alert({
               title: ('Error: ' + error.code),
               template: 'Check your internet connection',
-              okType: 'button-assertive',
+              okType: 'button-assertive'
             });
           }
         }
@@ -134,11 +134,28 @@ angular.module('starter.controllers', [])
       title: ('Welcome to DUCSS, ' + user.firstName + "!"),
       subTitle: ("We'll send more information to your email later on this week!"),
       okText: 'Sweet!',
-      okType: 'button-balanced',
+      okType: 'button-balanced'
     });
+    
+    //attempt to upload new member
+    Storage.uploadTemp();
+
+    // $ionicPopup.alert({
+    //   title: ((a?'':'NOT ') + 'Connected'),
+    //   subTitle: ("to the internet"),
+    //   okText: (a?'Sweet!':'DAMN!'),
+    //   okType: (a?"button-balanced":"button-assertive")
+    // });
   };
 
 })
 .controller('ReviewCtrl', function($scope, Storage) {
-  $scope.tempMembers = Storage.getTempMembers();
+  var refreshLists = function () {
+    $scope.tempMembers = Storage.getTempMembers();
+    $scope.sendingMembers = Storage.getSendingMembers();
+  }
+
+  $scope.$on('$ionicView.enter', function(e) {
+    refreshLists();
+  });
 });

@@ -1,6 +1,16 @@
 <ion-view view-title="Review">
   <ion-content>
-    <div class="review-header">Temporary Storage</div>
+    <div class="review-header">Uploading</div>
+    <ion-list>
+      <ion-item ng-repeat="member in sendingMembers">
+        <div class="member-name">
+          {{member.firstName}} {{member.lastName}}
+        </div>
+        <div style="member-email">
+          {{member.email}}
+        </div>
+      </ion-item>
+    </ion-list><div class="review-header">Ready for Upload</div>
     <ion-list>
       <ion-item ng-repeat="member in tempMembers">
         <div class="member-name">
