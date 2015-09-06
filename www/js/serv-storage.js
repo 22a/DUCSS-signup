@@ -16,7 +16,7 @@ angular.module('starter.services', [])
     if(window.Connection) {
       return navigator.connection.type !== 'Connection.NONE';
     }
-    return false;
+    return true;
   };
 
   this.addMember = function (user) {
@@ -36,6 +36,14 @@ angular.module('starter.services', [])
 
   this.getDirtyMembers = function () {
     return JSON.parse(localStorage.getItem(dirtyMemAdd));
+  };
+
+  this.deleteDirty = function (checksum) {
+    dirty = this.getDirtyMembers();
+    dirty = dirty.filter(function( member ) {
+      return member.checksum !== checksum;
+    });
+    localStorage.setItem(dirtyMemAdd, JSON.stringify(dirty));
   };
 
   this.uploadTemp = function () {

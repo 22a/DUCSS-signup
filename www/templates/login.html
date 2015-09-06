@@ -3,6 +3,7 @@
     <h1 class="title">Login</h1>
   </ion-header-bar>
   <ion-content>
+    <div class="pad"></div>
     <form name="loginForm" ng-submit="login()" novalidate ng-hide="connecting">
       <div class="list">
         <label class="item item-input">
@@ -20,8 +21,9 @@
         </label>
       </div>
     </form>
-    <div ng-show="connecting">
-      This is where the token connection screen will be...<br>
+    <div class="horizonCentre" ng-show="connecting">
+      Talking to the server...<br>
+      <div class="pad"></div>
       <ion-spinner icon="crescent"></ion-spinner>
     </div>
   </ion-content>

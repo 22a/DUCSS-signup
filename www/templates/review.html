@@ -1,37 +1,50 @@
 <ion-view view-title="Review">
   <ion-content>
-    <div class="review-header">Uploading</div>
-    <ion-list>
-      <ion-item ng-repeat="member in sendingMembers">
-        <div class="member-name">
-          {{member.first_name}} {{member.last_name}}
-        </div>
-        <div class="member-email">
-          {{member.email}}
-        </div>
-      </ion-item>
-    </ion-list>
-    <div class="review-header">Ready for Upload</div>
-    <ion-list>
-      <ion-item ng-repeat="member in tempMembers">
-        <div class="member-name">
-          {{member.first_name}} {{member.last_name}}
-        </div>
-        <div class="member-email">
-          {{member.email}}
-        </div>
-      </ion-item>
-    </ion-list>
-    <div class="review-header">Dirty</div>
-    <ion-list>
-      <ion-item ng-repeat="member in dirtyMembers">
-        <div class="member-name">
-          {{member.first_name}} {{member.last_name}}
-        </div>
-        <div class="member-email">
-          {{member.email}}
-        </div>
-      </ion-item>
-    </ion-list>
+    <div class="horizonCentre" ng-show="emptyBuffers">
+      <div class="pad"></div>
+      Nothing to review!
+    </div>
+    <div ng-show="sendingMembers[0]">
+      <div class="horizonCentre">Uploading</div>
+      <ion-list>
+        <ion-item ng-repeat="member in sendingMembers">
+          <div class="member-name">
+            {{member.first_name}} {{member.last_name}}
+          </div>
+          <div class="member-email">
+            {{member.email}}
+          </div>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div ng-show="tempMembers[0]">
+      <div class="horizonCentre">Ready for Upload</div>
+      <ion-list>
+        <ion-item ng-repeat="member in tempMembers">
+          <div class="member-name">
+            {{member.first_name}} {{member.last_name}}
+          </div>
+          <div class="member-email">
+            {{member.email}}
+          </div>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div ng-show="dirtyMembers[0]">
+      <div class="horizonCentre">Dirty</div>
+      <ion-list>
+        <ion-item ng-repeat="member in dirtyMembers">
+          <div class="member-name">
+            {{member.first_name}} {{member.last_name}}
+          </div>
+          <div class="member-email">
+            {{member.email}}
+          </div>
+          <ion-option-button class="button-assertive" ng-click="deleteDirty(member)">
+            Delete
+          </ion-option-button>
+        </ion-item>
+      </ion-list>
+    </div>
   </ion-content>
 </ion-view>

@@ -10,10 +10,16 @@
   width: 100%;
 }
 
-/*Temporary styling so that my eyes don't burn*/
-.review-header {
+.pad {
+  min-height: 50px;
+}
+
+.horizonCentre {
   text-align: center;
 }
+
+
+/*Temporary styling so that my eyes don't burn*/
 
 .member-name {
   float: left;
