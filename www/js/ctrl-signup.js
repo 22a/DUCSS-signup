@@ -6,14 +6,13 @@ angular.module('starter.controllers')
   $scope.signup = function (user) {
     //buffered local storage
     Storage.addMember(user);
-    $scope.user = {};
     $ionicPopup.alert({
-      title: ('Welcome to DUCSS, ' + user.firstName + "!"),
+      title: ('Welcome to DUCSS, ' + user.first_name + "!"),
       subTitle: ("We'll send more information to your email later on this week!"),
       okText: 'Sweet!',
       okType: 'button-balanced'
     });
-
+    $scope.user = {};
     Storage.uploadTemp();
 
     // $ionicPopup.alert({
