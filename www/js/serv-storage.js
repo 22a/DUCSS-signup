@@ -13,7 +13,7 @@ angular.module('starter.services', [])
     if(window.Connection) {
       return navigator.connection.type !== 'Connection.NONE';
     }
-    return true; //TODO: CHANGE TO FALSE WHEN DONE DEBUGGING!!!
+    return false;
   };
 
   this.addMember = function (user) {
@@ -42,6 +42,10 @@ angular.module('starter.services', [])
       API.POST('/members/import', sending, localStorage.getItem("token"))
       .then(
         function (response) {
+          console.log(response);
+
+
+
           sending = [];
           localStorage.setItem(sendingBuffAdd, JSON.stringify(sending));
           currentlyUploading = false;
@@ -54,40 +58,5 @@ angular.module('starter.services', [])
         }
       );
     }
-  };
-})
-
-.service('API', function($http, $q) {
-  var url = 'https://spootbean.cbrenn.me/api';
-  var deferredGet;
-  var deferredPost;
-
-  this.GET = function (endpoint, authUser, authPass) {
-    deferredGet = $q.defer();
-    var auth = 'Basic ' + btoa(authUser + ':' + authPass);
-    $http.get(url + endpoint, {
-      headers :{ 'Authorization' : auth}
-    })
-    .success(function (data) {
-      deferredGet.resolve(data);
-    })
-    .error(function (message, code) {
-      deferredGet.reject({"message" : message, "code" : code});
-    });
-    return deferredGet.promise;
-  };
-
-  this.POST = function (endpoint, postData, token) {
-    deferredPost = $q.defer();
-    $http.post(url + endpoint, {
-      "members" : postData
-    })
-    .success(function (data) {
-      deferredPost.resolve(data);
-    })
-    .error(function (message, code) {
-      deferredPost.reject({"message" : message, "code" : code});
-    });
-    return deferredPost.promise;
   };
 });

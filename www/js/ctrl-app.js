@@ -1,20 +1,12 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $location, $ionicPopup, API, $http) {
-
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-    $scope.login();
-  });
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $location, $ionicPopup, API) {
 
   $scope.closeLogin = function() {
     $scope.modal.hide();
   };
 
-  $scope.login = function() {
+  $scope.openLogin = function() {
     $scope.modal.show();
   };
 
@@ -25,7 +17,7 @@ angular.module('starter.controllers', [])
     $location.path('app/signup');
   };
 
-  $scope.doLogin = function() {
+  $scope.login = function() {
     $scope.connecting = true;
     API.GET('/access', $scope.loginData.username, $scope.loginData.password)
       .then(
@@ -56,7 +48,7 @@ angular.module('starter.controllers', [])
       );
   };
 
-  $scope.doLogout = function() {
+  $scope.logout = function() {
     var confirmPopup = $ionicPopup.confirm({
       title: 'Warning',
       subTitle: ("Data may be lost!"),
@@ -78,57 +70,18 @@ angular.module('starter.controllers', [])
     });
   };
 
+  $ionicModal.fromTemplateUrl('templates/login.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+    if(!localToken){
+      $scope.openLogin();
+    }
+  });
+
   $scope.loggedIn = false;
   $scope.loginData = {};
 
   var localToken = localStorage.getItem("token");
-  var localUN = localStorage.getItem("username");
 
-  if (localUN) {
-    $scope.loginData.username = localUN;
-  }
-  if(localToken && localUN){
-    setTimeout(function() {
-      passLogin();
-    }, 20);
-  }
-
-})
-.controller('SignupCtrl', function($scope, $ionicPopup, Storage, $http) {
-  $scope.user = {};
-
-  $http.defaults.headers.common.Authorization = 'Token token="' + localStorage.getItem('token') + '"';
-
-  $scope.signup = function (user) {
-    //buffered local storage
-    Storage.addMember(user);
-    $scope.user = {};
-    $ionicPopup.alert({
-      title: ('Welcome to DUCSS, ' + user.firstName + "!"),
-      subTitle: ("We'll send more information to your email later on this week!"),
-      okText: 'Sweet!',
-      okType: 'button-balanced'
-    });
-
-    //attempt to upload new member
-    Storage.uploadTemp();
-
-    // $ionicPopup.alert({
-    //   title: ((a?'':'NOT ') + 'Connected'),
-    //   subTitle: ("to the internet"),
-    //   okText: (a?'Sweet!':'DAMN!'),
-    //   okType: (a?"button-balanced":"button-assertive")
-    // });
-  };
-
-})
-.controller('ReviewCtrl', function($scope, Storage) {
-  var refreshLists = function () {
-    $scope.tempMembers = Storage.getTempMembers();
-    $scope.sendingMembers = Storage.getSendingMembers();
-  };
-
-  $scope.$on('$ionicView.enter', function(e) {
-    refreshLists();
-  });
 });
