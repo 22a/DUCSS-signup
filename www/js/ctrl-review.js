@@ -4,6 +4,7 @@ angular.module('starter.controllers')
   var refreshLists = function () {
     $scope.tempMembers = Storage.getTempMembers();
     $scope.sendingMembers = Storage.getSendingMembers();
+    $scope.dirtyMembers = Storage.getDirtyMembers();
   };
 
   $scope.$on('$ionicView.enter', function(e) {

@@ -4,9 +4,9 @@
     <ion-list>
       <ion-item ng-repeat="member in sendingMembers">
         <div class="member-name">
-          {{member.firstName}} {{member.lastName}}
+          {{member.first_name}} {{member.last_name}}
         </div>
-        <div style="member-email">
+        <div class="member-email">
           {{member.email}}
         </div>
       </ion-item>
@@ -15,9 +15,20 @@
     <ion-list>
       <ion-item ng-repeat="member in tempMembers">
         <div class="member-name">
-          {{member.firstName}} {{member.lastName}}
+          {{member.first_name}} {{member.last_name}}
         </div>
-        <div style="member-email">
+        <div class="member-email">
+          {{member.email}}
+        </div>
+      </ion-item>
+    </ion-list>
+    <div class="review-header">Dirty</div>
+    <ion-list>
+      <ion-item ng-repeat="member in dirtyMembers">
+        <div class="member-name">
+          {{member.first_name}} {{member.last_name}}
+        </div>
+        <div class="member-email">
           {{member.email}}
         </div>
       </ion-item>
