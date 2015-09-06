@@ -29,7 +29,7 @@ angular.module('starter.controllers', [])
       function (error) {
         $scope.loginData.password = '';
         $scope.connecting = false;
-        if(error.code === 401 || error.code === 404){
+        if(error.code === 401){
           $ionicPopup.alert({
             title: ('Error: ' + error.code),
             template: 'Incorrect Username/Password',
