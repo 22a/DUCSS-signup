@@ -32,7 +32,7 @@ angular.module('starter.services', [])
   };
 
   this.uploadTemp = function () {
-    if (!currentlyUploading && hasConnection() ) {
+    if ( !currentlyUploading && hasConnection() ) {
       currentlyUploading = true;
       sending = sending.concat(this.getTempMembers());
       localStorage.setItem(sendingBuffAdd, JSON.stringify(sending));
@@ -42,21 +42,19 @@ angular.module('starter.services', [])
       API.POST('/members/import', sending, localStorage.getItem("token"))
       .then(
         function (response) {
-          console.log(response);
-
-
-
-          sending = [];
-          localStorage.setItem(sendingBuffAdd, JSON.stringify(sending));
+          if (response.results.errors === 0) {
+            sending = [];
+            localStorage.setItem(sendingBuffAdd, JSON.stringify(sending));
+            return true;
+          }
           currentlyUploading = false;
-          return true;
         },
         function (error) {
           // error in upload
           // TODO: add reaction
-          return false;
         }
       );
     }
+    return false;
   };
 });

@@ -20,32 +20,31 @@ angular.module('starter.controllers', [])
   $scope.login = function() {
     $scope.connecting = true;
     API.GET('/access', $scope.loginData.username, $scope.loginData.password)
-      .then(
-        function (response) {
-          localStorage.setItem("token", response.token);
-          $http.defaults.headers.common.Authorization = 'Token token="' + response.token + '"';
-          passLogin();
-          $scope.connecting = false;
-        },
-        function (error) {
-          $scope.loginData.password = '';
-          $scope.connecting = false;
-          if(error.code === 401 || error.code === 404){
-            $ionicPopup.alert({
-              title: ('Error: ' + error.code),
-              template: 'Incorrect Username/Password',
-              okType: 'button-assertive'
-            });
-          }
-          else {
-            $ionicPopup.alert({
-              title: ('Error: ' + error.code),
-              template: 'Check your internet connection',
-              okType: 'button-assertive'
-            });
-          }
+    .then(
+      function (response) {
+        localStorage.setItem("token", response.token);
+        passLogin();
+        $scope.connecting = false;
+      },
+      function (error) {
+        $scope.loginData.password = '';
+        $scope.connecting = false;
+        if(error.code === 401 || error.code === 404){
+          $ionicPopup.alert({
+            title: ('Error: ' + error.code),
+            template: 'Incorrect Username/Password',
+            okType: 'button-assertive'
+          });
         }
-      );
+        else {
+          $ionicPopup.alert({
+            title: ('Error: ' + error.code),
+            template: 'Check your internet connection',
+            okType: 'button-assertive'
+          });
+        }
+      }
+    );
   };
 
   $scope.logout = function() {
@@ -70,18 +69,19 @@ angular.module('starter.controllers', [])
     });
   };
 
+  $scope.loggedIn = false;
+  $scope.loginData = {};
+
+  var localToken = localStorage.getItem("token");
+
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
-  }).then(function(modal) {
+  })
+  .then(function(modal) {
     $scope.modal = modal;
     if(!localToken){
       $scope.openLogin();
     }
   });
-
-  $scope.loggedIn = false;
-  $scope.loginData = {};
-
-  var localToken = localStorage.getItem("token");
 
 });
