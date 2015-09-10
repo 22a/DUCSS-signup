@@ -14,12 +14,12 @@
   min-height: 50px;
 }
 
-.horizonCentre {
+.small-pad {
+  min-height: 25px;
+}
+.horizon-centre {
   text-align: center;
 }
-
-
-/*Temporary styling so that my eyes don't burn*/
 
 .member-name {
   float: left;
@@ -28,3 +28,29 @@
 .member-email {
   float: right;
 }
+
+.signup-logo {
+  width: 50%;
+}
+
+.menu-logo {
+  height: 100%;
+  margin-left: 85px;
+}
+
+.smashing {
+  -webkit-animation-name: rotate;
+  -webkit-animation-duration: 4s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+}
+
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+

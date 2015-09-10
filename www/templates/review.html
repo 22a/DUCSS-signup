@@ -1,11 +1,13 @@
 <ion-view view-title="Review">
   <ion-content>
-    <div class="horizonCentre" ng-show="emptyBuffers">
+    <div class="horizon-centre" ng-show="emptyBuffers">
       <div class="pad"></div>
-      Nothing to review!
+      <span>Nothing to review!</span>
+      <div class="pad"></div>
+      <img class="smashing" src="img/smashing.png"/>
     </div>
     <div ng-show="sendingMembers[0]">
-      <div class="horizonCentre">Uploading</div>
+      <div class="horizon-centre">Uploading</div>
       <ion-list>
         <ion-item ng-repeat="member in sendingMembers">
           <div class="member-name">
@@ -18,7 +20,7 @@
       </ion-list>
     </div>
     <div ng-show="tempMembers[0]">
-      <div class="horizonCentre">Ready for Upload</div>
+      <div class="horizon-centre">Ready for Upload</div>
       <ion-list>
         <ion-item ng-repeat="member in tempMembers">
           <div class="member-name">
@@ -31,7 +33,7 @@
       </ion-list>
     </div>
     <div ng-show="dirtyMembers[0]">
-      <div class="horizonCentre">Dirty</div>
+      <div class="horizon-centre">Dirty</div>
       <ion-list>
         <ion-item ng-repeat="member in dirtyMembers">
           <div class="member-name">
