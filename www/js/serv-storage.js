@@ -69,16 +69,18 @@ angular.module('starter.services', [])
                 if (sending[j].checksum === response.results.error_checksums[i]) {
                   dirty.push(sending[j]);
                 }
-              };
-            };
+              }
+            }
             localStorage.setItem(dirtyMemAdd, JSON.stringify(dirty));
             sending = [];
             localStorage.setItem(sendingBuffAdd, JSON.stringify(sending));
           }
         },
         function (error) {
-          // error in upload
-          // TODO: add reaction
+          temp = JSON.parse(localStorage.getItem(sendingBuffAdd));
+          localStorage.setItem(tempBuffAdd, JSON.stringify(temp));
+          sending = [];
+          localStorage.setItem(sendingBuffAdd, JSON.stringify(sending));
         }
       );
       currentlyUploading = false;

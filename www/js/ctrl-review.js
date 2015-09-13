@@ -1,7 +1,7 @@
 angular.module('starter.controllers')
 
 .controller('ReviewCtrl', function($scope, Storage) {
-  var refreshLists = function () {
+  $scope.refreshLists = function () {
     $scope.tempMembers = Storage.getTempMembers();
     $scope.sendingMembers = Storage.getSendingMembers();
     $scope.dirtyMembers = Storage.getDirtyMembers();
@@ -9,11 +9,15 @@ angular.module('starter.controllers')
   };
 
   $scope.$on('$ionicView.enter', function(e) {
-    refreshLists();
+    $scope.refreshLists();
   });
+
+  $scope.retryUpload = function () {
+    Storage.uploadTemp();
+  };
 
   $scope.deleteDirty = function (member) {
     Storage.deleteDirty(member.checksum);
-    refreshLists();
+    $scope.refreshLists();
   };
 });

@@ -14,7 +14,6 @@ angular.module('starter.controllers', [])
     $scope.loginData.password = '';
     $scope.loggedIn = true;
     $scope.closeLogin();
-    $location.path('app/signup');
   };
 
   $scope.login = function() {

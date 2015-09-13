@@ -1,4 +1,9 @@
 <ion-view view-title="Review">
+  <ion-nav-buttons side="right">
+    <button class="button button-clear button-blue" ng-click="refreshLists()">
+      Refresh
+    </button>
+  </ion-nav-buttons>
   <ion-content>
     <div class="horizon-centre" ng-show="emptyBuffers">
       <div class="pad"></div>
@@ -20,7 +25,14 @@
       </ion-list>
     </div>
     <div ng-show="tempMembers[0]">
-      <div class="horizon-centre">Ready for Upload</div>
+      <div class="horizon-centre">
+        <span>
+          Ready for Upload
+        </span>
+        <span class="button-blue review-upload" ng-click="retryUpload()">
+          Upload
+        </span>
+      </div>
       <ion-list>
         <ion-item ng-repeat="member in tempMembers">
           <div class="member-name">
