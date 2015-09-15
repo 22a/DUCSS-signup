@@ -14,7 +14,6 @@ angular.module('starter.controllers', [])
     $scope.loginData.password = '';
     $scope.loggedIn = true;
     $scope.closeLogin();
-    window.location.reload(true);
   };
 
   $scope.pinCheck = function(destination) {
