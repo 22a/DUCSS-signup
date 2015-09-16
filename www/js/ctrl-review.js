@@ -14,6 +14,9 @@ angular.module('starter.controllers')
 
   $scope.retryUpload = function () {
     Storage.uploadTemp();
+    setTimeout(function() {
+      $scope.refreshLists();
+    }, 100);
   };
 
   $scope.deleteDirty = function (member) {
