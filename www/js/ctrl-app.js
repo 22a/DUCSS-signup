@@ -13,6 +13,7 @@ angular.module('starter.controllers', [])
   var passLogin = function () {
     $scope.loginData.password = '';
     $scope.loggedIn = true;
+    $http.defaults.headers.post.Authorization = 'Token token="' + localStorage.getItem('token') + '"';
     $scope.closeLogin();
   };
 
@@ -55,33 +56,30 @@ angular.module('starter.controllers', [])
 
   $scope.login = function() {
     $scope.connecting = true;
-    API.GET('/access', $scope.loginData.username, $scope.loginData.password)
-    .then(
-      function (response) {
-        localStorage.setItem("token", response.token);
-        $http.defaults.headers.post.Authorization = 'Token token="' + localStorage.getItem('token') + '"';
+    API.login($scope.loginData.username, $scope.loginData.password).then(
+      function(response) {
+        localStorage.setItem("token", response.data.token);
         passLogin();
         $scope.connecting = false;
       },
-      function (error) {
+      function(response) {
         $scope.loginData.password = '';
         $scope.connecting = false;
-        if(error.code === 401){
+        if(response.status === 401){
           $ionicPopup.alert({
-            title: ('Error: ' + error.code),
+            title: ('Error: ' + response.status),
             template: 'Incorrect Username/Password',
             okType: 'button-assertive'
           });
         }
         else {
           $ionicPopup.alert({
-            title: ('Error: ' + error.code),
+            title: ('Error: ' + response.status),
             template: 'Check your internet connection',
             okType: 'button-assertive'
           });
         }
-      }
-    );
+      });
   };
 
   $scope.logout = function() {
@@ -116,8 +114,10 @@ angular.module('starter.controllers', [])
   })
   .then(function(modal) {
     $scope.modal = modal;
-    if(!localToken){
+    if(typeof localToken === "undefined" || localToken === null){
       $scope.openLogin();
+    } else {
+      $http.defaults.headers.post.Authorization = 'Token token="' + localStorage.getItem('token') + '"';
     }
   });
 

@@ -1,6 +1,6 @@
 angular.module('starter.controllers')
 
-.controller('ReviewCtrl', function($scope, Storage) {
+.controller('ReviewCtrl', function($scope, Storage, $ionicPopup) {
   $scope.refreshLists = function () {
     $scope.tempMembers = Storage.getTempMembers();
     $scope.sendingMembers = Storage.getSendingMembers();
@@ -14,7 +14,18 @@ angular.module('starter.controllers')
   });
 
   $scope.retryUpload = function () {
-    Storage.uploadTemp();
+    Storage.uploadTemp().then(
+      function(code) {
+        $scope.refreshLists();
+      },
+      function(code) {
+        $ionicPopup.alert({
+          title: ('Error: ' + code),
+          template: (code === 0)? 'No internet you boob!': 'You should maybe logout?',
+          okType: 'button-assertive'
+        });
+      }
+    );
     setTimeout(function() {
       $scope.refreshLists();
     }, 100);

@@ -6,7 +6,6 @@ angular.module('starter.services')
   var deferredPost;
 
   this.GET = function (endpoint, authUser, authPass) {
-    deferredGet = $q.defer();
     var auth = 'Basic ' + btoa(authUser + ':' + authPass);
     $http.get(url + endpoint, {
       headers :{ 'Authorization' : auth}
@@ -32,5 +31,18 @@ angular.module('starter.services')
       deferredPost.reject({"message" : message, "code" : code});
     });
     return deferredPost.promise;
+  };
+
+  this.login = function(email, password) {
+    var auth = 'Basic ' + btoa(email + ':' + password);
+    return $http.get(url + '/access', {
+      headers :{ 'Authorization' : auth}
+    });
+  };
+
+  this.addMembers = function(membersArray) {
+    return $http.post(url + '/members/import', {
+      'members' : membersArray
+    });
   };
 });
