@@ -5,7 +5,7 @@ angular.module('starter.controllers')
     $scope.tempMembers = Storage.getTempMembers();
     $scope.sendingMembers = Storage.getSendingMembers();
     $scope.dirtyMembers = Storage.getDirtyMembers();
-    $scope.emptyBuffers = !( $scope.tempMembers[0] || $scope.sendingMembers[0] || $scope.dirtyMembers[0] );
+    $scope.emptyBuffers = !( $scope.tempMembers.length > 0 || $scope.sendingMembers.length > 0 || $scope.dirtyMembers.length > 0 );
   };
 
   $scope.$on('$ionicView.enter', function(e) {

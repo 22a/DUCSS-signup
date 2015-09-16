@@ -27,15 +27,15 @@ angular.module('starter.services', [])
   };
 
   this.getTempMembers = function () {
-    return JSON.parse(localStorage.getItem(tempBuffAdd));
+    return JSON.parse(localStorage.getItem(tempBuffAdd)) || [];
   };
 
   this.getSendingMembers = function () {
-    return JSON.parse(localStorage.getItem(sendingBuffAdd));
+    return JSON.parse(localStorage.getItem(sendingBuffAdd)) || [];
   };
 
   this.getDirtyMembers = function () {
-    return JSON.parse(localStorage.getItem(dirtyMemAdd));
+    return JSON.parse(localStorage.getItem(dirtyMemAdd)) || [];
   };
 
   this.deleteDirty = function (checksum) {

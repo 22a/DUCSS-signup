@@ -11,7 +11,7 @@
       <div class="pad"></div>
       <img class="smashing" src="img/smashing.png"/>
     </div>
-    <div ng-show="sendingMembers[0]">
+    <div ng-if="sendingMembers.length > 0">
       <div class="item item-divider horizon-centre">Uploading</div>
       <ion-list>
         <ion-item ng-repeat="member in sendingMembers">
@@ -24,7 +24,7 @@
         </ion-item>
       </ion-list>
     </div>
-    <div ng-show="tempMembers[0]">
+    <div ng-if="tempMembers.length > 0">
       <div class="item item-divider horizon-centre">
         <span>
           Ready for Upload
@@ -44,7 +44,7 @@
         </ion-item>
       </ion-list>
     </div>
-    <div ng-show="dirtyMembers[0]">
+    <div ng-if="dirtyMembers.length > 0">
       <div class="item item-divider horizon-centre">Dirty</div>
       <ion-list>
         <ion-item ng-repeat="member in dirtyMembers">
