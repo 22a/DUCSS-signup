@@ -19,7 +19,6 @@ angular.module('starter.controllers')
         $scope.refreshLists();
       },
       function(code) {
-        console.log(code);
         $ionicPopup.alert({
           title: ('Error: ' + code),
           template: (code === 0)? 'No internet you boob!': 'You should maybe logout?',
