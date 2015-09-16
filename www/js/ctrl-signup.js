@@ -13,7 +13,7 @@ angular.module('starter.controllers')
     Storage.addMember(user);
     $ionicPopup.alert({
       title: ('Welcome to DUCSS, ' + user.first_name + "!"),
-      subTitle: ("We'll send you and email later in the week!"),
+      subTitle: ("We'll send you an email later in the week!"),
       okText: 'Sweet!',
       okType: 'button-balanced'
     });

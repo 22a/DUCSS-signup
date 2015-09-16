@@ -1,8 +1,6 @@
 angular.module('starter.services')
 
 .service('API', function($http, $q) {
-  $http.defaults.headers.post.Authorization = 'Token token="' + localStorage.getItem('token') + '"';
-  
   var url = 'https://spootbean.cbrenn.me/api';
   var deferredGet;
   var deferredPost;

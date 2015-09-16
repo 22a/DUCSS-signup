@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $location, $ionicPopup, API, $state) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $location, $ionicPopup, API, $state, $http) {
 
   $scope.closeLogin = function() {
     $scope.modal.hide();
@@ -59,6 +59,7 @@ angular.module('starter.controllers', [])
     .then(
       function (response) {
         localStorage.setItem("token", response.token);
+        $http.defaults.headers.post.Authorization = 'Token token="' + localStorage.getItem('token') + '"';
         passLogin();
         $scope.connecting = false;
       },
