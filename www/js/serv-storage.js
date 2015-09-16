@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
 
-.service('Storage', function ( API ) {
+.service('Storage', function ( API , $q ) {
   var currentlyUploading = false;
 
   var tempMemAdd = 'ducss-member-temp-storage';
@@ -62,6 +62,7 @@ angular.module('starter.services', [])
   };
 
   this.uploadTemp = function () {
+    promise = $q.defer();
     if ( !currentlyUploading && hasConnection() ) {
       currentlyUploading = true;
       sending = (this.getSendingMembers() || sending).concat(this.getTempMembers());
@@ -69,10 +70,9 @@ angular.module('starter.services', [])
       temp = [];
       localStorage.setItem(tempMemAdd, JSON.stringify(temp));
 
-      API.POST('/members/import', sending, localStorage.getItem("token"))
-      .then(
-        function (response) {
-          if (response.results.errors === 0) {
+      API.addMembers(sending).then(
+        function(response) {
+          if (response.data.results.errors === 0) {
             sent = JSON.parse(localStorage.getItem(sentMemAdd)) || [];
             sent = sent.concat(sending);
             localStorage.setItem(sentMemAdd, JSON.stringify(sent));
@@ -83,9 +83,9 @@ angular.module('starter.services', [])
           }
           else {
             dirty = JSON.parse(localStorage.getItem(dirtyMemAdd)) || dirty;
-            for (var i = response.results.error_checksums.length - 1; i >= 0; i--) {
+            for (var i = response.data.results.error_checksums.length - 1; i >= 0; i--) {
               for (var j = sending.length - 1; j >= 0; j--) {
-                if (sending[j].checksum === response.results.error_checksums[i]) {
+                if (sending[j].checksum === response.data.results.error_checksums[i]) {
                   dirty.push(sending[j]);
                 }
                 else {
@@ -98,16 +98,21 @@ angular.module('starter.services', [])
             sending = [];
             localStorage.setItem(sendingMemAdd, JSON.stringify(sending));
           }
+          currentlyUploading = false;
+          response.resolve(response.code);
         },
-        function (error) {
+        function(response) {
           temp = JSON.parse(localStorage.getItem(sendingMemAdd));
           localStorage.setItem(tempMemAdd, JSON.stringify(temp));
           sending = [];
           localStorage.setItem(sendingMemAdd, JSON.stringify(sending));
-        }
-      );
-      currentlyUploading = false;
+          currentlyUploading = false;
+          promise.reject(response.code);
+        });
+   } else {
+      // show popup
+      promise.reject(0);
     }
-    return false;
+    return promise.promise;
   };
 });
