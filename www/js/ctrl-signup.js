@@ -13,18 +13,11 @@ angular.module('starter.controllers')
     Storage.addMember(user);
     $ionicPopup.alert({
       title: ('Welcome to DUCSS, ' + user.first_name + "!"),
-      subTitle: ("We'll send more information to your email later on this week!"),
+      subTitle: ("We'll send you and email later in the week!"),
       okText: 'Sweet!',
       okType: 'button-balanced'
     });
     $scope.user = {};
     Storage.uploadTemp();
-
-    // $ionicPopup.alert({
-    //   title: ((a?'':'NOT ') + 'Connected'),
-    //   subTitle: ("to the internet"),
-    //   okText: (a?'Sweet!':'DAMN!'),
-    //   okType: (a?"button-balanced":"button-assertive")
-    // });
   };
 });

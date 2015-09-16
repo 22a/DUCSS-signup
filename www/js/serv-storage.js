@@ -3,14 +3,17 @@ angular.module('starter.services', [])
 .service('Storage', function ( API ) {
   var currentlyUploading = false;
 
-  var tempBuffAdd = 'ducss-member-temp-storage';
+  var tempMemAdd = 'ducss-member-temp-storage';
   var temp = [];
 
-  var sendingBuffAdd = 'ducss-member-sending-storage';
+  var sendingMemAdd = 'ducss-member-sending-storage';
   var sending = [];
 
   var dirtyMemAdd = 'ducss-member-dirty-storage';
   var dirty = [];
+
+  var sentMemAdd = 'ducss-member-sent-storage';
+  var sent = [];
 
   var hasConnection = function () {
     if(window.Connection) {
@@ -21,21 +24,25 @@ angular.module('starter.services', [])
 
   this.addMember = function (user) {
     //TODO: add validations on passed obj
-    temp = JSON.parse(localStorage.getItem(tempBuffAdd)) || temp;
+    temp = JSON.parse(localStorage.getItem(tempMemAdd)) || temp;
     temp.push(user);
-    localStorage.setItem(tempBuffAdd, JSON.stringify(temp));
+    localStorage.setItem(tempMemAdd, JSON.stringify(temp));
   };
 
   this.getTempMembers = function () {
-    return JSON.parse(localStorage.getItem(tempBuffAdd)) || [];
+    return JSON.parse(localStorage.getItem(tempMemAdd)) || [];
   };
 
   this.getSendingMembers = function () {
-    return JSON.parse(localStorage.getItem(sendingBuffAdd)) || [];
+    return JSON.parse(localStorage.getItem(sendingMemAdd)) || [];
   };
 
   this.getDirtyMembers = function () {
     return JSON.parse(localStorage.getItem(dirtyMemAdd)) || [];
+  };
+
+  this.getSentMembers = function () {
+    return JSON.parse(localStorage.getItem(sentMemAdd)) || [];
   };
 
   this.deleteDirty = function (checksum) {
@@ -46,20 +53,32 @@ angular.module('starter.services', [])
     localStorage.setItem(dirtyMemAdd, JSON.stringify(dirty));
   };
 
+  this.deleteSent = function (checksum) {
+    sent = this.getSentMembers();
+    sent = sent.filter(function( member ) {
+      return member.checksum !== checksum;
+    });
+    localStorage.setItem(sentMemAdd, JSON.stringify(sent));
+  };
+
   this.uploadTemp = function () {
     if ( !currentlyUploading && hasConnection() ) {
       currentlyUploading = true;
       sending = (this.getSendingMembers() || sending).concat(this.getTempMembers());
-      localStorage.setItem(sendingBuffAdd, JSON.stringify(sending));
+      localStorage.setItem(sendingMemAdd, JSON.stringify(sending));
       temp = [];
-      localStorage.setItem(tempBuffAdd, JSON.stringify(temp));
+      localStorage.setItem(tempMemAdd, JSON.stringify(temp));
 
       API.POST('/members/import', sending, localStorage.getItem("token"))
       .then(
         function (response) {
           if (response.results.errors === 0) {
+            sent = JSON.parse(localStorage.getItem(sentMemAdd)) || [];
+            sent = sent.concat(sending);
+            localStorage.setItem(sentMemAdd, JSON.stringify(sent));
+
             sending = [];
-            localStorage.setItem(sendingBuffAdd, JSON.stringify(sending));
+            localStorage.setItem(sendingMemAdd, JSON.stringify(sending));
             return true;
           }
           else {
@@ -69,18 +88,22 @@ angular.module('starter.services', [])
                 if (sending[j].checksum === response.results.error_checksums[i]) {
                   dirty.push(sending[j]);
                 }
+                else {
+                  sent.push(sending[j]);
+                }
               }
             }
+            localStorage.setItem(sentMemAdd, JSON.stringify(sent));
             localStorage.setItem(dirtyMemAdd, JSON.stringify(dirty));
             sending = [];
-            localStorage.setItem(sendingBuffAdd, JSON.stringify(sending));
+            localStorage.setItem(sendingMemAdd, JSON.stringify(sending));
           }
         },
         function (error) {
-          temp = JSON.parse(localStorage.getItem(sendingBuffAdd));
-          localStorage.setItem(tempBuffAdd, JSON.stringify(temp));
+          temp = JSON.parse(localStorage.getItem(sendingMemAdd));
+          localStorage.setItem(tempMemAdd, JSON.stringify(temp));
           sending = [];
-          localStorage.setItem(sendingBuffAdd, JSON.stringify(sending));
+          localStorage.setItem(sendingMemAdd, JSON.stringify(sending));
         }
       );
       currentlyUploading = false;
