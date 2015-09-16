@@ -62,7 +62,7 @@ angular.module('starter.services', [])
   };
 
   this.uploadTemp = function () {
-    promise = $q.defer();
+    var deferred = $q.defer();
     if ( !currentlyUploading && hasConnection() ) {
       currentlyUploading = true;
       sending = (this.getSendingMembers() || sending).concat(this.getTempMembers());
@@ -79,7 +79,7 @@ angular.module('starter.services', [])
 
             sending = [];
             localStorage.setItem(sendingMemAdd, JSON.stringify(sending));
-            return true;
+            deferred.resolve(200);
           }
           else {
             dirty = JSON.parse(localStorage.getItem(dirtyMemAdd)) || dirty;
@@ -97,9 +97,9 @@ angular.module('starter.services', [])
             localStorage.setItem(dirtyMemAdd, JSON.stringify(dirty));
             sending = [];
             localStorage.setItem(sendingMemAdd, JSON.stringify(sending));
+            deferred.resolve(response.code);
           }
           currentlyUploading = false;
-          response.resolve(response.code);
         },
         function(response) {
           temp = JSON.parse(localStorage.getItem(sendingMemAdd));
@@ -107,12 +107,12 @@ angular.module('starter.services', [])
           sending = [];
           localStorage.setItem(sendingMemAdd, JSON.stringify(sending));
           currentlyUploading = false;
-          promise.reject(response.code);
+          deferred.reject(response.status);
         });
    } else {
       // show popup
-      promise.reject(0);
+      deferred.reject(0);
     }
-    return promise.promise;
+    return deferred.promise;
   };
 });
