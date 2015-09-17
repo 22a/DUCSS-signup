@@ -80,19 +80,17 @@ angular.module('starter.services', [])
             sending = [];
             localStorage.setItem(sendingMemAdd, JSON.stringify(sending));
             deferred.resolve(200);
-          }
-          else {
+          } else {
             dirty = JSON.parse(localStorage.getItem(dirtyMemAdd)) || dirty;
-            for (var i = response.data.results.error_checksums.length - 1; i >= 0; i--) {
-              for (var j = sending.length - 1; j >= 0; j--) {
-                if (sending[j].checksum === response.data.results.error_checksums[i]) {
-                  dirty.push(sending[j]);
+            response.data.results.error_checksums.forEach(function(checksumFromServer){
+              sending.forEach(function(member){
+                if (member.checksum === checksumFromServer) {
+                  dirty.push(member);
+                } else {
+                  sent.push(member);
                 }
-                else {
-                  sent.push(sending[j]);
-                }
-              }
-            }
+              });
+            });
             localStorage.setItem(sentMemAdd, JSON.stringify(sent));
             localStorage.setItem(dirtyMemAdd, JSON.stringify(dirty));
             sending = [];
