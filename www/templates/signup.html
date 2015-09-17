@@ -23,13 +23,8 @@
           <div class="input-label">
             Year of Study
           </div>
-          <select ng-model="user.year" required>
-            <option value="1">First</option>
-            <option value="2">Second</option>
-            <option value="3">Third</option>
-            <option value="4">Fourth</option>
-            <option value="5">Postgrad/Staff</option>
-          </select>
+          <select ng-init="user.year = 1" ng-model="user.year" ng-options="option.value as option.name for option in yearOptions" required>
+         </select>
         </label>
       </div>
       <button class="button button-block button-balanced" type="submit" ng-disabled="signupForm.$invalid">

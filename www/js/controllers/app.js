@@ -19,35 +19,17 @@ angular.module('starter.controllers', [])
 
   $scope.pinCheck = function(destination) {
     $scope.data = {};
-    var pinPopup = $ionicPopup.show({
-      template: '<input type="password" ng-model="data.pin">',
-      title: 'Enter Magnus Password',
-      scope: $scope,
-      buttons: [
-        { text: 'Cancel'   },
-        {
-          text: '<b>Submit</b>',
-          type: 'button-balanced',
-          onTap: function(e) {
-            if (!$scope.data.pin) {
-              e.preventDefault();
-            }
-            else {
-              return $scope.data.pin;
-            }
-          }
-        }
-      ]
+    var pinPopup = $ionicPopup.prompt({
+      title: 'Password Check',
+      inputType: 'password',
+      inputPlaceholder: ' Enter magnus password',
+      okType: 'button-balanced'
     });
     pinPopup.then(function(res) {
       if(res === 'spoot') {
         if (destination === 'logout') {
           $scope.logout();
-        }
-        else if (destination === 'signup') {
-          $state.go('app.signup');
-        }
-        else if (destination === 'review') {
+        } else if (destination === 'review') {
           $state.go('app.review');
         }
       }

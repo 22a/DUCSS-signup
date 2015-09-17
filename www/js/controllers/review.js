@@ -26,9 +26,6 @@ angular.module('starter.controllers')
         });
       }
     );
-    setTimeout(function() {
-      $scope.refreshLists();
-    }, 100);
   };
 
   $scope.deleteDirty = function (member) {

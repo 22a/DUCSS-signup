@@ -55,6 +55,22 @@
   margin-right: 20px;
 }
 
+.item-floating-label, .item-select {
+  max-width: 500px;
+  border-left: none;
+  border-right: none;
+  margin: 0 auto;
+}
+
+.item-floating-label {
+  border-bottom: none;
+}
+
+.button-block {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
 @-webkit-keyframes rotate {
   from {
     -webkit-transform: rotate(0deg);
